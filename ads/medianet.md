@@ -16,23 +16,29 @@ limitations under the License.
 
 # Media.net
 
+Media.net adapter supports the integration of its Header Bidding solution with the publisher website that uses DoubleClick for Publishers (DFP) as the Ad Server. The example listed below states the configuration and the implementation related details.
+
+
 ## Example
 
-### Basic
+### Media.net Header Bidder 
+
 ``` html
-<amp-ad width=300 height=250
-         type="medianet"
-         data-tagtype="sync"
-         data-cid="8CUS807EX"
-         data-crid="112682482">
+<amp-ad width="300" height="250"
+    type="medianet"
+    data-tagtype="headerbidder"
+    data-cid="8CU852274"
+    data-slot="/45361917/AMP_Header_Bidder"
+    json='{"targeting":{"mnetAmpTest":"1","pos":"mnetSlot1"}}'>
 </amp-ad>
+
 ```
 
 ## Configuration
 
 ### Dimensions
  
-The ad size depends on the ``width`` and ``height`` attributes specified in the ``amp-ad`` tag. These are mandatory parameters that are required to be added in the ad tag. The AMP ad component requires the following HTML attributes to be added before parsing the ad.
+The ad size depends on the ``width`` and ``height`` attributes specified in the ``amp-ad`` tag. The ``amp-ad`` component requires the following mandatory HTML attributes to be added before parsing the Ad.
   
  * ``width`` 
  * ``height`` 
@@ -40,22 +46,27 @@ The ad size depends on the ``width`` and ``height`` attributes specified in the 
 
 For further configuration related details, please feel free to reach out to your Media.net contact.
 
-### Supported Parameters
+## Supported Parameters 
+
+###Media.net Header Bidder
 
 <strong>Mandatory Parameters</strong>
  
-* ``data-tagtype`` - Represents the product that the publisher is using. It should be <strong>sync</strong> for our contextual advertising product.
+* ``data-tagtype`` - This parameter represents the product the publisher is using; It should be <strong>headerbidder</strong> for our Header Bidding solution.
 * ``data-cid`` - Represents the unique customer identifier.
-* ``data-crid`` - Represents the unique identifier for the ad unit.
+* ``data-slot`` - Ad unit as specified in DFP
 
-<strong>Optional Parameters</strong>
 
-The following in an additional parameter that you can set:
+<strong>Some of the parameters supported via Json attribute (DFP Parameters)</strong>
 
-``data-misc`` - Accepts a json value and can be passed by the publisher to send additional data.
+* ``targeting``
+* ``categoryExclusions``
 
-For further details, feel free to contact your Account Manager at Media.net.
+For an exhaustive list of updated parameters supported by DoubleClick refer to the guide - [here](google/doubleclick.md).
+
 
 ## Support 
+For further queries, please feel free to reach out to your contact at Media.net.
 
-If you have any questions, you can contact your Account Manager or even write to our support team at pubsupport@media.net.
+Otherwise you can write to our support team:
+Email: <strong>pubsupport@media.net</strong>

@@ -64,8 +64,12 @@ describe('Activity getTotalEngagedTime', () => {
           // required to instantiate Viewport service
           paddingTop: 0,
         },
+        classList: {
+          add: () => {},
+        },
       },
       body: {
+        nodeType: 1,
         style: {},
       },
     };
