@@ -26,6 +26,7 @@ const mandatoryParams = ['tagtype', 'cid'],
     'overrideWidth', 'overrideHeight', 'loadingStrategy',
     'consentNotificationId', 'useSameDomainRenderingUntilDeprecated',
     'experimentId', 'multiSize', 'multiSizeValidation',
+    'crid', 'misc',
   ],
   dfpParams = [
     'slot', 'targeting', 'categoryExclusions',
@@ -46,11 +47,9 @@ export function medianet(global, data) {
   const publisherUrl = global.context.canonicalUrl ||
       getSourceUrl(global.context.location.href),
     referrerUrl = global.context.referrer;
-
   if (data.tagtype === 'headerbidder') { //parameter tagtype is used to identify the product the publisher is using. Going ahead we plan to support more product types.
     loadHBTag(global, data, publisherUrl, referrerUrl);
-  setAdditionalData(data);
-  if (data.tagtype === 'sync') {
+  } else if (data.tagtype === 'sync') {
     loadSyncTag(global, data);
   }
 }
@@ -62,6 +61,10 @@ export function medianet(global, data) {
 function loadSyncTag(global, data) {
     /*eslint "google-camelcase/google-camelcase": 0*/
 
+  if (!(data.hasOwnProperty('crid'))) {
+    return;
+  }
+  setAdditionalData(data);
   let url = 'https://contextual.media.net/ampnmedianet.js?';
   url += 'cid=' + encodeURIComponent(data.cid);
   url += '&https=1';
@@ -71,15 +74,12 @@ function loadSyncTag(global, data) {
   setMacro(data, 'width');
   setMacro(data, 'height');
   setMacro(data, 'crid');
-
+  setMacro(data, 'misc');
   if (data.refurl) {
     url += '&refurl=' + encodeURIComponent(data.refurl);
     setMacro(data, 'refurl');
   }
 
-  if (data.misc) {
-    setMacro(data, 'misc');
-  }
   setCallbacks(global);
   writeScript(global, url);
 }
@@ -89,7 +89,7 @@ function setMacro(data, type) {
     return;
   }
   const name = 'medianet_' + type;
-  if (data[type]) {
+  if (data.hasOwnProperty(type)) {
     global[name] = data[type];
   }
 }
@@ -123,9 +123,8 @@ function setAdditionalData(data) {
       getSourceUrl(global.context.location.href);
   data.refurl = global.context.referrer;
   data.versionId = '211213';
- * @param {!string} publisherUrl
- * @param {?string} referrerUrl
- */
+}
+
 function loadHBTag(global, data, publisherUrl, referrerUrl) {
   function deleteUnexpectedDoubleclickParams() {
     const allParams = mandatoryParams.concat(optionalParams);
