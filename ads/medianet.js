@@ -98,15 +98,22 @@ function loadSyncTag(global, data, publisherUrl, referrerUrl) {
     setMacro('misc');
   }
 
-  setAdditionalData();
-  setCallbacks();
+  function loadScript() {
+    let url = 'https://contextual.media.net/ampnmedianet.js?';
+    url += 'cid=' + encodeURIComponent(data.cid);
+    url += '&https=1';
+    url += '&requrl=' + encodeURIComponent(data.requrl || '');
+    url += '&refurl=' + encodeURIComponent(data.refurl || '');
+    writeScript(global, url);
+  }
 
-  let url = 'https://contextual.media.net/ampnmedianet.js?';
-  url += 'cid=' + encodeURIComponent(data.cid);
-  url += '&https=1';
-  url += '&requrl=' + encodeURIComponent(data.requrl || '');
-  url += '&refurl=' + encodeURIComponent(data.refurl || '');
-  writeScript(global, url);
+  function init() {
+    setAdditionalData();
+    setCallbacks();
+    loadScript();
+  }
+
+  init();
 }
 
 function loadHBTag(global, data, publisherUrl, referrerUrl) {
