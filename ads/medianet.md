@@ -62,6 +62,7 @@ The ad size depends on the ``width`` and ``height`` attributes specified in the 
 
 If you have questions, please feel free to reach out to your Media.net contact.
 
+
 ## Supported Parameters 
 
 ###Media.net Contextual Monetization
@@ -75,6 +76,7 @@ If you have questions, please feel free to reach out to your Media.net contact.
 <strong>Optional Parameters</strong>
 
 * ``data-misc`` - This parameter accepts a json value & can be passed by the publisher to send additional data
+
 
 
 ###Media.net Header Bidder
