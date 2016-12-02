@@ -30,8 +30,8 @@ The example listed below states the configuration and the implementation related
 <amp-ad width="300" height="250"
     type="medianet"
     data-tagtype="cm"
-    data-cid=" 8CUS8O7EX"
-    data-cid=" 112682482">
+    data-cid="8CUS8O7EX"
+    data-crid="112682482">
 </amp-ad>
 
 
@@ -62,14 +62,15 @@ The ad size depends on the ``width`` and ``height`` attributes specified in the 
 
 If you have questions, please feel free to reach out to your Media.net contact.
 
+
 ## Supported Parameters 
 
 ###Media.net Contextual Monetization
 
 <strong>Mandatory Parameters</strong>
  
-* ``data-tagtype`` - This parameter represents the product the publisher is using; It should be <strong>cm</strong> for our Contextual Monetization solution.
-* ``data-cid`` - Represents the unique customer identifier.
+* ``data-tagtype`` - This parameter represents the product the publisher is using; It should be <strong>``cm``</strong> for our <strong>Contextual Monetization solution</strong>
+* ``data-cid`` - Represents the unique customer identifier
 * ``data-crid`` - Represents the unique identifier for the ad unit
 
 <strong>Optional Parameters</strong>
@@ -77,12 +78,13 @@ If you have questions, please feel free to reach out to your Media.net contact.
 * ``data-misc`` - This parameter accepts a json value & can be passed by the publisher to send additional data
 
 
+
 ###Media.net Header Bidder
 
 <strong>Mandatory Parameters</strong>
  
-* ``data-tagtype`` - This parameter represents the product the publisher is using; It should be <strong>headerbidder</strong> for our Header Bidding solution.
-* ``data-cid`` - Represents the unique customer identifier.
+* ``data-tagtype`` - This parameter represents the product the publisher is using; It should be <strong>``headerbidder``</strong> for our <strong>Header Bidding solution</strong>
+* ``data-cid`` - Represents the unique customer identifier
 * ``data-slot`` - Ad unit as specified in DFP
 
 <strong>Some of the parameters supported via Json attribute (DFP Parameters)</strong>
