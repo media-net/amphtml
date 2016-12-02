@@ -57,6 +57,8 @@ export function medianet(global, data) {
 /**
  * @param {!Window} global
  * @param {!Object} data
+ * @param {!string} publisherUrl
+ * @param {?string} referrerUrl
  */
 function loadSyncTag(global, data, publisherUrl, referrerUrl) {
   /*eslint "google-camelcase/google-camelcase": 0*/
@@ -116,6 +118,12 @@ function loadSyncTag(global, data, publisherUrl, referrerUrl) {
   init();
 }
 
+/**
+ * @param {!Window} global
+ * @param {!Object} data
+ * @param {!string} publisherUrl
+ * @param {?string} referrerUrl
+ */
 function loadHBTag(global, data, publisherUrl, referrerUrl) {
   function deleteUnexpectedDoubleclickParams() {
     const allParams = mandatoryParams.concat(optionalParams);
@@ -146,7 +154,7 @@ function loadHBTag(global, data, publisherUrl, referrerUrl) {
     data.targeting = data.targeting || {};
 
     if (global.advBidxc &&
-        typeof global.advBidxc.setAmpTargeting === 'function') {
+      typeof global.advBidxc.setAmpTargeting === 'function') {
       global.advBidxc.setAmpTargeting(global, data);
     }
     deleteUnexpectedDoubleclickParams();
@@ -156,7 +164,7 @@ function loadHBTag(global, data, publisherUrl, referrerUrl) {
   function mnetHBHandle() {
     global.advBidxc = global.context.master.advBidxc;
     if (global.advBidxc &&
-        typeof global.advBidxc.registerAmpSlot === 'function') {
+      typeof global.advBidxc.registerAmpSlot === 'function') {
       global.advBidxc.registerAmpSlot({
         cb: loadDFP,
         data,
