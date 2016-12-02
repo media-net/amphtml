@@ -71,11 +71,11 @@ If you have questions, please feel free to reach out to your Media.net contact.
  
 * ``data-tagtype`` - This parameter represents the product the publisher is using; It should be <strong>``cm``</strong> for our <strong>Contextual Monetization solution</strong>
 * ``data-cid`` - Represents the unique customer identifier
-* ``data-crid`` - Represents the unique identifier for the ad unit
+* ``data-crid`` - Media.net Ad unit
 
 <strong>Optional Parameters</strong>
 
-* ``data-misc`` - This parameter accepts a json value & can be passed by the publisher to send additional data
+* ``data-misc`` - Accepts a json value & used to send additional data
 
 
 
