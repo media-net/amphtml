@@ -16,8 +16,7 @@ limitations under the License.
 
 # Media.net
 
-Media.net adapter supports the integration of both, its Contextual Monetization solution and the Header Bidding solution (for publishers using DFP as Ad Server). 
-
+Media.net adapter supports the integration of both, its Contextual Monetization solution and the Header Bidding solution. 
 The example listed below states the configuration and the implementation related details.
 
 
