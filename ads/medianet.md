@@ -64,6 +64,17 @@ For further configuration related details, please feel free to reach out to your
 
 For an exhaustive list of updated parameters supported by DoubleClick refer to the guide - [here](google/doubleclick.md).
 
+###Media.net CM Tag
+<strong>Mandatory Parameters</strong>
+* ``data-tagtype`` - This parameter represents the product the publisher is using; It should be <strong>cm</strong> for our Contextual Monetization solution.
+* ``data-cid`` - Represents the unique customer identifier.
+* ``data-crid`` - This parameter represents the unique identifier for the ad unit
+
+<strong>Optional Parameters</strong>
+
+* ``data-misc`` - This parameter accepts a json value & can be passed by the publisher to send additional data
+
+
 
 ## Support 
 For further queries, please feel free to reach out to your contact at Media.net.
