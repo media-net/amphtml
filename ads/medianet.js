@@ -49,8 +49,8 @@ export function medianet(global, data) {
     referrerUrl = global.context.referrer;
   if (data.tagtype === 'headerbidder') { //parameter tagtype is used to identify the product the publisher is using. Going ahead we plan to support more product types.
     loadHBTag(global, data, publisherUrl, referrerUrl);
-  } else if (data.tagtype === 'sync') {
-    loadSyncTag(global, data);
+  } else if (data.tagtype === 'cm' && data.crid) {
+    loadSyncTag(global, data, publisherUrl, referrerUrl);
   }
 }
 
@@ -58,71 +58,55 @@ export function medianet(global, data) {
  * @param {!Window} global
  * @param {!Object} data
  */
-function loadSyncTag(global, data) {
-    /*eslint "google-camelcase/google-camelcase": 0*/
-
-  if (!(data.hasOwnProperty('crid'))) {
-    return;
+function loadSyncTag(global, data, publisherUrl, referrerUrl) {
+  /*eslint "google-camelcase/google-camelcase": 0*/
+  function setMacro(type) {
+    if (!type) {
+      return;
+    }
+    const name = 'medianet_' + type;
+    if (data.hasOwnProperty(type)) {
+      global[name] = data[type];
+    }
   }
-  setAdditionalData(data);
+
+  function setCallbacks() {
+    global._mNAmp = {
+      renderStartCb: opt_data => {
+        global.context.renderStart(opt_data);
+      },
+      reportRenderedEntityIdentifierCb: ampId => {
+        global.context.reportRenderedEntityIdentifier(ampId);
+      },
+      noContentAvailableCb: () => {
+        global.context.noContentAvailable();
+      },
+    };
+  }
+
+  function setAdditionalData() {
+    data.requrl = publisherUrl;
+    data.refurl = referrerUrl;
+    data.versionId = '211213';
+
+    setMacro('width');
+    setMacro('height');
+    setMacro('crid');
+    setMacro('requrl');
+    setMacro('refurl');
+    setMacro('versionId');
+    setMacro('misc');
+  }
+
+  setAdditionalData();
+  setCallbacks();
+
   let url = 'https://contextual.media.net/ampnmedianet.js?';
   url += 'cid=' + encodeURIComponent(data.cid);
   url += '&https=1';
-  url += '&requrl=' + encodeURIComponent(data.requrl);
-  setMacro(data, 'versionId');
-  setMacro(data, 'requrl');
-  setMacro(data, 'width');
-  setMacro(data, 'height');
-  setMacro(data, 'crid');
-  setMacro(data, 'misc');
-  if (data.refurl) {
-    url += '&refurl=' + encodeURIComponent(data.refurl);
-    setMacro(data, 'refurl');
-  }
-
-  setCallbacks(global);
+  url += '&requrl=' + encodeURIComponent(data.requrl || '');
+  url += '&refurl=' + encodeURIComponent(data.refurl || '');
   writeScript(global, url);
-}
-
-function setMacro(data, type) {
-  if (!type) {
-    return;
-  }
-  const name = 'medianet_' + type;
-  if (data.hasOwnProperty(type)) {
-    global[name] = data[type];
-  }
-}
-
-function setCallbacks(global) {
-  function renderStartCb(opt_data) {
-    console.log('renderStartCalled');
-    global.context.renderStart(opt_data);
-  }
-  function reportRenderedEntityIdentifierCb(ampId) {
-    console.log('reported rendered entity' + ampId);
-    //check for id, and pass default if not available
-    global.context.reportRenderedEntityIdentifier(ampId);
-  }
-  function noContentAvailableCb() {
-    console.log('no content available called');
-    global.context.noContentAvailable();
-  }
-
-  const callbacks = {
-    renderStartCb,
-    reportRenderedEntityIdentifierCb,
-    noContentAvailableCb,
-  };
-  global._mNAmp = callbacks;
-
-}
-
-function setAdditionalData(data) {
-  data.requrl = global.context.canonicalUrl ||
-      getSourceUrl(global.context.location.href);
-  data.refurl = global.context.referrer;
-  data.versionId = '211213';
 }
 
 function loadHBTag(global, data, publisherUrl, referrerUrl) {
@@ -155,7 +139,7 @@ function loadHBTag(global, data, publisherUrl, referrerUrl) {
     data.targeting = data.targeting || {};
 
     if (global.advBidxc &&
-      typeof global.advBidxc.setAmpTargeting === 'function') {
+        typeof global.advBidxc.setAmpTargeting === 'function') {
       global.advBidxc.setAmpTargeting(global, data);
     }
     deleteUnexpectedDoubleclickParams();
@@ -165,7 +149,7 @@ function loadHBTag(global, data, publisherUrl, referrerUrl) {
   function mnetHBHandle() {
     global.advBidxc = global.context.master.advBidxc;
     if (global.advBidxc &&
-      typeof global.advBidxc.registerAmpSlot === 'function') {
+        typeof global.advBidxc.registerAmpSlot === 'function') {
       global.advBidxc.registerAmpSlot({
         cb: loadDFP,
         data,
