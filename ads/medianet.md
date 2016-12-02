@@ -30,8 +30,8 @@ The example listed below states the configuration and the implementation related
 <amp-ad width="300" height="250"
     type="medianet"
     data-tagtype="cm"
-    data-cid=" 8CUS8O7EX"
-    data-cid=" 112682482">
+    data-cid="8CUS8O7EX"
+    data-crid="112682482">
 </amp-ad>
 
 
