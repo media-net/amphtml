@@ -20,13 +20,12 @@ import {doubleclick} from '../ads/google/doubleclick';
 
 const mandatoryParams = ['tagtype', 'cid'],
   optionalParams = [
-    'timeout',
+    'timeout', 'crid', 'misc',
     'slot', 'targeting', 'categoryExclusions',
     'tagForChildDirectedTreatment', 'cookieOptions',
     'overrideWidth', 'overrideHeight', 'loadingStrategy',
     'consentNotificationId', 'useSameDomainRenderingUntilDeprecated',
     'experimentId', 'multiSize', 'multiSizeValidation',
-    'crid', 'misc',
   ],
   dfpParams = [
     'slot', 'targeting', 'categoryExclusions',
@@ -47,10 +46,13 @@ export function medianet(global, data) {
   const publisherUrl = global.context.canonicalUrl ||
       getSourceUrl(global.context.location.href),
     referrerUrl = global.context.referrer;
+
   if (data.tagtype === 'headerbidder') { //parameter tagtype is used to identify the product the publisher is using. Going ahead we plan to support more product types.
     loadHBTag(global, data, publisherUrl, referrerUrl);
   } else if (data.tagtype === 'cm' && data.crid) {
     loadSyncTag(global, data, publisherUrl, referrerUrl);
+  } else {
+    global.context.noContentAvailable();
   }
 }
 
@@ -72,6 +74,20 @@ function loadSyncTag(global, data, publisherUrl, referrerUrl) {
     }
   }
 
+  function setAdditionalData() {
+    data.requrl = publisherUrl || '';
+    data.refurl = referrerUrl || '';
+    data.versionId = '211213';
+
+    setMacro('width');
+    setMacro('height');
+    setMacro('crid');
+    setMacro('requrl');
+    setMacro('refurl');
+    setMacro('versionId');
+    setMacro('misc');
+  }
+
   function setCallbacks() {
     global._mNAmp = {
       renderStartCb: opt_data => {
@@ -86,26 +102,12 @@ function loadSyncTag(global, data, publisherUrl, referrerUrl) {
     };
   }
 
-  function setAdditionalData() {
-    data.requrl = publisherUrl;
-    data.refurl = referrerUrl;
-    data.versionId = '211213';
-
-    setMacro('width');
-    setMacro('height');
-    setMacro('crid');
-    setMacro('requrl');
-    setMacro('refurl');
-    setMacro('versionId');
-    setMacro('misc');
-  }
-
   function loadScript() {
     let url = 'https://contextual.media.net/ampnmedianet.js?';
     url += 'cid=' + encodeURIComponent(data.cid);
     url += '&https=1';
-    url += '&requrl=' + encodeURIComponent(data.requrl || '');
-    url += '&refurl=' + encodeURIComponent(data.refurl || '');
+    url += '&requrl=' + encodeURIComponent(data.requrl);
+    url += '&refurl=' + encodeURIComponent(data.refurl);
     writeScript(global, url);
   }
 
