@@ -50,7 +50,7 @@ export function medianet(global, data) {
   if (data.tagtype === 'headerbidder') { //parameter tagtype is used to identify the product the publisher is using. Going ahead we plan to support more product types.
     loadHBTag(global, data, publisherUrl, referrerUrl);
   } else if (data.tagtype === 'cm' && data.crid) {
-    loadSyncTag(global, data, publisherUrl, referrerUrl);
+    loadCMTag(global, data, publisherUrl, referrerUrl);
   } else {
     global.context.noContentAvailable();
   }
@@ -62,7 +62,7 @@ export function medianet(global, data) {
  * @param {!string} publisherUrl
  * @param {?string} referrerUrl
  */
-function loadSyncTag(global, data, publisherUrl, referrerUrl) {
+function loadCMTag(global, data, publisherUrl, referrerUrl) {
   /*eslint "google-camelcase/google-camelcase": 0*/
   function setMacro(type) {
     if (!type) {
