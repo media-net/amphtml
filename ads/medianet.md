@@ -68,8 +68,8 @@ If you have questions, please feel free to reach out to your Media.net contact.
 
 <strong>Mandatory Parameters</strong>
  
-* ``data-tagtype`` - This parameter represents the product the publisher is using; It should be <strong>``cm``</strong> for our <strong>Contextual Monetization solution</strong>.
-* ``data-cid`` - Represents the unique customer identifier.
+* ``data-tagtype`` - This parameter represents the product the publisher is using; It should be <strong>``cm``</strong> for our <strong>Contextual Monetization solution</strong>
+* ``data-cid`` - Represents the unique customer identifier
 * ``data-crid`` - Represents the unique identifier for the ad unit
 
 <strong>Optional Parameters</strong>
@@ -81,8 +81,8 @@ If you have questions, please feel free to reach out to your Media.net contact.
 
 <strong>Mandatory Parameters</strong>
  
-* ``data-tagtype`` - This parameter represents the product the publisher is using; It should be <strong>``headerbidder``</strong> for our <strong>Header Bidding solution</strong>.
-* ``data-cid`` - Represents the unique customer identifier.
+* ``data-tagtype`` - This parameter represents the product the publisher is using; It should be <strong>``headerbidder``</strong> for our <strong>Header Bidding solution</strong>
+* ``data-cid`` - Represents the unique customer identifier
 * ``data-slot`` - Ad unit as specified in DFP
 
 <strong>Some of the parameters supported via Json attribute (DFP Parameters)</strong>
