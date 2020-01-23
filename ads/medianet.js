@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+import {CONSENT_POLICY_STATE} from '../src/consent-state';
 import {computeInMasterFrame, validateData, writeScript} from '../3p/3p';
 import {getSourceUrl, parseUrlDeprecated} from '../src/url';
 import {hasOwn} from '../src/utils/object';
@@ -58,6 +59,26 @@ export function medianet(global, data) {
     loadCMTag(global, data, publisherUrl, referrerUrl);
   } else {
     global.context.noContentAvailable();
+  }
+}
+
+/**
+ * @param {!Window} global
+ * @return {boolean|undefined}
+ */
+function getUserConsent(global) {
+  const ctx = global.context;
+
+  /*
+   * INSUFFICIENT and UNKNOWN should be treated as INSUFFICIENT
+   * not defined states should be treated as INSUFFICIENT
+   */
+  if (ctx.initialConsentState === CONSENT_POLICY_STATE.SUFFICIENT) {
+    return true;
+  } else if (ctx.initialConsentState === CONSENT_POLICY_STATE.INSUFFICIENT) {
+    return false;
+  } else {
+    return;
   }
 }
 
@@ -107,6 +128,11 @@ function loadCMTag(global, data, publisherUrl, referrerUrl) {
     data.refurl = referrerUrl || '';
     data.versionId = '211213';
 
+    const userConsent = getUserConsent(global);
+    if (userConsent !== undefined) {
+      data.genCons = userConsent;
+    }
+
     setMacro('width');
     setMacro('height');
     setMacro('crid');
@@ -114,6 +140,7 @@ function loadCMTag(global, data, publisherUrl, referrerUrl) {
     setMacro('refurl');
     setMacro('versionId');
     setMacro('misc');
+    setMacro('genCons');
   }
 
   /**
